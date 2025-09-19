@@ -9,9 +9,9 @@
         <p class="notification__text">
             {{ message }}
         </p>
-        <button title="close" ref="closeButton" class="notification__button" @click="$emit('clear-notification')">
-            &#10005;
-        </button>
+        <button data-testid="close-notification" title="close" ref="closeButton" class="notification__button" @click="$emit('clear-notification')">
+          &#10005;
+</button>
     </div>
 </template>
 

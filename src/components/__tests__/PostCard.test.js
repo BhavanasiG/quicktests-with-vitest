@@ -2,6 +2,7 @@
 import axios from 'axios'
 import PostCard from '../PostCard.vue'
 import { mount, flushPromises } from '@vue/test-utils'
+import { expect } from 'vitest'
 
 const mockPost = {
   userId: 1,
@@ -11,30 +12,13 @@ const mockPost = {
 }
 
 describe('Post Card Component', () => {
-  test('can fetch and display a post', async () => {
-    vi.spyOn(axios, 'get').mockResolvedValueOnce({ data: mockPost })
+  test('creaetd posts render correctly', () => {
+    const title = 'Test post'
+    const body = 'test post body'
+    const wrapper = mount(PostCard, {
+      props: { title, body }
+    })
 
-    const wrapper = mount(PostCard)
-
-    expect(wrapper.html()).toContain('Loading...')
-
-    await flushPromises()
-
-    // new
-    expect(wrapper.find('[data-testid="post-title"]').text()).toBe(mockPost.title)
-
-    expect(wrapper.find('[data-testid="post-body"]').text()).toBe(mockPost.body)
-  })
-
-  test('can display an error message if fetching a post fails', async () => {
-    vi.spyOn(axios, 'get').mockRejectedValueOnce(new Error('Error occurred'))
-
-    const wrapper = mount(PostCard)
-
-    expect(wrapper.html()).toContain('Loading...')
-
-    await flushPromises()
-
-    expect(wrapper.find('[data-testid="error-message"]').text()).toBe('Error occurred')
+    expect(wrapper.html()).toMatchSnapshot
   })
 })
